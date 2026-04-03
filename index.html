@@ -1,160 +1,404 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>| NebuLord / callmeaqua |</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>𝐍𝐞𝐛𝐮𝐋𝐨𝐫𝐝</title>
+    <link rel="icon" id="dynamic-favicon" type="image/webp">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --purple-glow: rgba(188, 19, 254, 0.18);
+            --gold-glow: rgba(255, 204, 0, 0.15);
+            --grid-color: rgba(255, 255, 255, 0.05);
+            --status-online: #23a55a;
+            --status-idle: #f0b232;
+            --status-dnd: #f23f43;
+            --status-offline: #80848e;
+            --accent-purple: #8a2be2;
+            --accent-gold: #ffd700;
+        }
 
-  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;600&display=swap" rel="stylesheet">
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
 
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      font-family: 'Kanit', sans-serif;
-      background: url('https://assets.nebulilabs.xyz/bio_bg.jpg') no-repeat center center fixed;
-      background-size: cover;
-      color: #fff;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 40px 15px;
-    }
+        ::-webkit-scrollbar-track {
+            background: #000;
+        }
 
-    .container {
-      display: flex;
-      gap: 30px;
-      flex-wrap: wrap;
-      max-width: 900px;
-      align-items: flex-start;
-    }
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(to bottom, var(--accent-purple), var(--accent-gold));
+            border-radius: 10px;
+        }
 
-    .card {
-      background: rgba(20, 20, 20, 0.6);
-      border-radius: 20px;
-      backdrop-filter: blur(10px);
-      box-shadow: 0 0 25px rgba(0, 0, 0, 0.5);
-      padding: 25px;
-      width: 300px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #000;
+            background-image: 
+                linear-gradient(var(--grid-color) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid-color) 1px, transparent 1px),
+                radial-gradient(circle at 15% 15%, var(--purple-glow) 0%, transparent 45%),
+                radial-gradient(circle at 85% 85%, var(--gold-glow) 0%, transparent 45%);
+            background-size: 35px 35px, 35px 35px, 100% 100%, 100% 100%;
+            background-attachment: fixed;
+            color: #fff;
+            font-family: 'Inter', -apple-system, system-ui, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+            cursor: none;
+        }
 
-    .projects-wrapper {
-        width: 400px;
-        display: flex;
-        flex-direction: column;
-        gap: 15px;
-    }
+        #custom-cursor {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 28px;
+            height: 28px;
+            pointer-events: none;
+            z-index: 9999;
+            filter: drop-shadow(0 0 8px var(--accent-purple));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transform-origin: center center;
+            will-change: transform, left, top;
+        }
 
-    .project-card {
-        background: rgba(20, 20, 20, 0.75);
-        padding: 15px;
-        border-radius: 10px;
-        text-align: center;
-    }
+        #cursor-svg {
+            width: 100%;
+            height: 100%;
+            fill: none;
+            stroke: var(--accent-purple);
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            transition: stroke 0.3s ease;
+        }
 
-    .card img {
-      width: 100px;
-      height: 100px;
-      border-radius: 50%;
-      border: 3px solid #fff;
-      margin-bottom: 20px;
-    }
+        #custom-cursor.hovering #cursor-svg {
+            stroke: var(--accent-gold);
+        }
 
-    .username { font-size: 1.3rem; font-weight: 600; margin-bottom: 10px; text-align: center; }
-    .bio      { font-size: 0.95rem; text-align: center; color: #ccc; }
-    .repo-title { font-size: 1.1rem; margin-bottom: 5px; }
-    .repo-desc  { font-size: 0.85rem; color: #ccc; margin-bottom: 10px; }
+        #custom-cursor.hovering {
+            filter: drop-shadow(0 0 12px var(--accent-gold));
+        }
 
-    .btn-group { margin-top: 10px; display: flex; gap: 10px; justify-content: center; }
-    .btn {
-      padding: 6px 12px;
-      background: #a259ff;
-      border-radius: 8px;
-      text-decoration: none;
-      color: #fff;
-      font-size: 0.85rem;
-      transition: background 0.2s;
-    }
-    .btn:hover { background: #b47bff; }
+        .container {
+            width: 90%;
+            max-width: 1000px;
+            padding: 10px 0;
+        }
 
-    .specialties-list {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 8px;
-        margin-top: 15px;
-        font-size: 0.9rem;
-    }
-    .specialty-item {
-        background: rgba(255, 255, 255, 0.1);
-        padding: 4px 8px;
-        border-radius: 6px;
-        font-weight: 600;
-    }
+        header {
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
 
-    @media (max-width: 640px) {
-        .card, .projects-wrapper { width: 100%; }
-        .container { flex-direction: column; gap: 20px; }
-    }
-  </style>
+        .title-group { flex: 1; }
+
+        h1 {
+            font-size: clamp(3rem, 10vw, 7rem);
+            font-weight: 900;
+            margin: 0;
+            line-height: 0.8;
+            text-transform: uppercase;
+            letter-spacing: -4px;
+        }
+
+        .handle {
+            font-size: clamp(0.6rem, 2vw, 0.75rem);
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            opacity: 0.6;
+            display: block;
+            margin-top: 15px;
+        }
+
+        .profile-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        .avatar-link {
+            display: block;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 2px solid rgba(255,255,255,0.1);
+            overflow: hidden;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+            cursor: none;
+        }
+
+        .avatar-link:hover {
+            transform: scale(1.05);
+            border-color: #fff;
+        }
+
+        .avatar-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .status-indicator {
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+            width: 20px;
+            height: 20px;
+            background-color: var(--status-offline);
+            border: 4px solid #000;
+            border-radius: 50%;
+            transition: background-color 0.3s ease;
+        }
+
+        .row {
+            padding: 20px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        h2 {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            color: rgba(255, 255, 255, 0.3);
+            margin-bottom: 20px;
+        }
+
+        .conveyer-belt { overflow: hidden; white-space: nowrap; width: 100%; }
+        .belt-track { display: inline-flex; gap: 80px; animation: scroll 20s linear infinite; }
+        @keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+        
+        .lang-item { 
+            display: flex; 
+            align-items: center; 
+            gap: 15px; 
+            font-size: 1.5rem; 
+            font-weight: 800; 
+            opacity: 0.9; 
+            letter-spacing: 2px;
+        }
+        
+        .lang-item i { font-size: 2.2rem; }
+
+        .project-flex { display: flex; flex-direction: row; flex-wrap: wrap; gap: 40px; align-items: baseline; }
+        .project-link { text-decoration: none; color: #fff; font-size: clamp(1.2rem, 4vw, 1.8rem); font-weight: 300; transition: 0.3s; white-space: nowrap; cursor: none; }
+        .project-link:hover { transform: translateY(-3px); opacity: 0.7; }
+        .heavy { font-weight: 900; }
+
+        #popup {
+            visibility: hidden;
+            position: fixed;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #fff;
+            color: #000;
+            padding: 12px 24px;
+            font-weight: 800;
+            font-size: 0.7rem;
+            border-radius: 2px;
+            z-index: 100;
+        }
+        #popup.show { visibility: visible; }
+
+        @media (max-width: 600px) {
+            header { justify-content: center; text-align: center; }
+            .avatar-link { width: 80px; height: 80px; }
+            #custom-cursor { display: none; }
+            body { cursor: auto; }
+            .lang-item { font-size: 1.1rem; }
+            .lang-item i { font-size: 1.6rem; }
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
 
-    <div class="card">
-      <img src="https://assets.nebulilabs.xyz/nl_home/nebulord_pfp.png" alt="NebuLord Profile Picture" />
-      <div class="username">NebuLord (callmeaqua)</div>
-      <div class="bio">
-        Hi 👋 I'm NebuLord (you can call me Aqua if you want). I am the owner & founder of <a href="https://nebulilabs.github.io/33b9a3fe-8b50-4209-b258-8e793998a051.png" target="_blank" style="color:#a259ff;text-decoration:underline;">Nebuli Labs</a>, and you can find Nebuli Labs and my personal projects on the right and my coding specialties below.
-        </div>
-
-      <h3 style="margin-top: 20px; margin-bottom: 10px;">My Specialties</h3>
-      <div class="specialties-list">
-        <span class="specialty-item">HTML</span>
-        <span class="specialty-item">CSS</span>
-        <span class="specialty-item">JavaScript (JS)</span>
-        <span class="specialty-item">Node.js</span>
-      </div>
+    <div id="custom-cursor">
+        <svg id="cursor-svg" viewBox="0 0 24 24">
+            <path d="M4.037 4.437l15.757 9.117a.5.5 0 0 1-.007.864l-5.999 3.514a.5.5 0 0 0-.182.205l-3.473 6.287a.5.5 0 0 1-.88-.006L4.002 4.932a.5.5 0 0 1 .035-.495z"></path>
+        </svg>
     </div>
 
-    <div class="projects-wrapper">
-        <div class="project-card">
-            <h4 class="repo-title">NebuliOS</h4>
-            <p class="repo-desc">A sleek, clean, fully html webOS powered by Ultraviolet, which includes 750+ games, a variety of tools, and more.</p>
-            <div class="btn-group">
-                <a href="https://os.nebulilabs.xyz" target="_blank" class="btn">Launch</a>
-                <a href="https://github.com/NebuliLabs-OS/NebuliLabs-OS.github.io" target="_blank" class="btn">Source</a>
+    <div class="container">
+        <header>
+            <div class="title-group">
+                <h1>NebuLord</h1>
+                <span class="handle">@call.me.aqua</span>
+            </div>
+            
+            <div class="profile-container">
+                <a href="https://discord.com/users/989161123603419276" target="_blank" class="avatar-link">
+                    <img src="https://cdn.discordapp.com/avatars/989161123603419276/31cefcc8eeca434862fc5952f220391b.webp?size=1024" alt="NebuLord" class="avatar-img" id="pfp-source">
+                </a>
+                <div id="discord-status" class="status-indicator"></div>
+            </div>
+        </header>
+
+        <div class="row">
+            <h2>MY_LANGUAGES</h2>
+            <div class="conveyer-belt">
+                <div class="belt-track">
+                    <div class="lang-item"><i class="fa-brands fa-html5"></i> HTML</div>
+                    <div class="lang-item"><i class="fa-brands fa-css3-alt"></i> CSS</div>
+                    <div class="lang-item"><i class="fa-brands fa-js"></i> JAVASCRIPT</div>
+                    <div class="lang-item"><i class="fa-brands fa-node-js"></i> NODEJS</div>
+                    <div class="lang-item"><i class="fa-brands fa-python"></i> PYTHON</div>
+                    <div class="lang-item"><i class="fa-solid fa-seedling"></i> ELM</div>
+                    <div class="lang-item"><i class="fa-solid fa-leaf"></i> MINT</div>
+                </div>
             </div>
         </div>
 
-        <div class="project-card">
-            <h4 class="repo-title">QZ-star</h4>
-            <p class="repo-desc">A minimalist proxy site powered by Ultraviolet, big enough to be your #1 proxy, small enough to not be detected.</p>
-            <div class="btn-group">
-                <a href="#" target="_blank" class="btn">Launch</a>
-                <a href="#" target="_blank" class="btn">Source</a>
+        <div class="row">
+            <h2>MY_PROJECTS</h2>
+            <div class="project-flex">
+                <a href="https://nebulios.pages.dev/" class="project-link"><span class="heavy">N</span>EBULI<span class="heavy">OS</span></a>
+                <a href="https://nebulilabs.xyz" class="project-link"><span class="heavy">N</span>EBULI <span class="heavy">L</span>ABS</a>
+                <a href="javascript:void(0)" class="project-link" onclick="notify()">
+                    <span class="heavy">B</span>ITSPACE
+                </a>
             </div>
         </div>
+    </div>
 
-        <div class="project-card">
-            <h4 class="repo-title">Nebuli Labs Docs</h4>
-            <p class="repo-desc">A document full of all your needs for bypasses, exploits, you name it!</p>
-            <div class="btn-group">
-                <a href="https://docs.google.com/document/d/19OkAQdvproXgEJIJU9wuu0GUeKcJygttYPSFaDeP9Ig/edit?tab=t.0" target="_blank" class="btn">Launch</a>
-            </div>
-        </div>
+    <div id="popup">STATUS: STILL IN DEVELOPMENT</div>
 
-        <div class="project-card">
-            <h4 class="repo-title">Calculator</h4>
-            <p class="repo-desc">I made a calculator for myself to use in the 6th grade using AI</p>
-            <div class="btn-group">
-                <a href="https://nebulilabs.github.io/calck" target="_blank" class="btn">Launch</a>
-                <a href="https://github.com/NebuliLabs/calck" target="_blank" class="btn">Source</a>
-            </div>
-        </div>
-  </div>
+    <script>
+        const titles = ["𝐍𝐞𝐛𝐮𝐋𝐨𝐫𝐝", "call.me.aqua"];
+        let currentTitleIndex = 0;
+        let isDeleting = true;
+        let charIndex = Array.from(titles[currentTitleIndex]).length;
+
+        function updateTabTitle() {
+            const fullTitleArray = Array.from(titles[currentTitleIndex]);
+            
+            if (isDeleting) {
+                document.title = fullTitleArray.slice(0, charIndex).join('');
+                charIndex--;
+                if (charIndex < 0) {
+                    isDeleting = false;
+                    currentTitleIndex = (currentTitleIndex + 1) % titles.length;
+                    charIndex = 0;
+                    setTimeout(updateTabTitle, 500);
+                    return;
+                }
+            } else {
+                document.title = fullTitleArray.slice(0, charIndex).join('');
+                charIndex++;
+                if (charIndex > fullTitleArray.length) {
+                    isDeleting = true;
+                    setTimeout(updateTabTitle, 2000);
+                    return;
+                }
+            }
+            
+            setTimeout(updateTabTitle, isDeleting ? 100 : 150);
+        }
+        updateTabTitle();
+
+        function createRoundedFavicon(src) {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            const img = new Image();
+            img.crossOrigin = "anonymous";
+            img.onload = function() {
+                canvas.width = 64;
+                canvas.height = 64;
+                ctx.beginPath();
+                ctx.arc(32, 32, 32, 0, Math.PI * 2);
+                ctx.closePath();
+                ctx.clip();
+                ctx.drawImage(img, 0, 0, 64, 64);
+                document.getElementById('dynamic-favicon').href = canvas.toDataURL('image/png');
+            };
+            img.src = src;
+        }
+
+        const pfpUrl = "https://cdn.discordapp.com/avatars/989161123603419276/31cefcc8eeca434862fc5952f220391b.webp?size=1024";
+        createRoundedFavicon(pfpUrl);
+
+        const cursor = document.getElementById('custom-cursor');
+        let mouseX = 0, mouseY = 0;
+        let cursorX = 0, cursorY = 0;
+        let angle = 0;
+        let isHovering = false;
+
+        window.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+
+        function animateCursor() {
+            let distX = mouseX - cursorX;
+            let distY = mouseY - cursorY;
+            
+            cursorX = cursorX + (distX * 0.15);
+            cursorY = cursorY + (distY * 0.15);
+
+            if (Math.abs(distX) > 0.1 || Math.abs(distY) > 0.1) {
+                angle = Math.atan2(distY, distX) * (180 / Math.PI);
+            }
+
+            let scale = isHovering ? 1.4 : 1;
+            
+            cursor.style.left = cursorX + 'px';
+            cursor.style.top = cursorY + 'px';
+            cursor.style.transform = `translate(-50%, -50%) rotate(${angle}deg) scale(${scale})`;
+            
+            requestAnimationFrame(animateCursor);
+        }
+        animateCursor();
+
+        document.querySelectorAll('a, .project-link').forEach(link => {
+            link.addEventListener('mouseenter', () => {
+                isHovering = true;
+                cursor.classList.add('hovering');
+            });
+            link.addEventListener('mouseleave', () => {
+                isHovering = false;
+                cursor.classList.remove('hovering');
+            });
+        });
+
+        async function fetchDiscordStatus() {
+            try {
+                const response = await fetch('https://api.lanyard.rest/v1/users/989161123603419276');
+                const data = await response.json();
+                const status = data.data.discord_status;
+                const indicator = document.getElementById('discord-status');
+
+                const colors = {
+                    online: 'var(--status-online)',
+                    idle: 'var(--status-idle)',
+                    dnd: 'var(--status-dnd)',
+                    offline: 'var(--status-offline)'
+                };
+
+                indicator.style.backgroundColor = colors[status] || colors.offline;
+            } catch (err) {
+                console.error("Failed to pull status");
+            }
+        }
+
+        function notify() {
+            const pop = document.getElementById('popup');
+            pop.className = "show";
+            setTimeout(() => { pop.className = pop.className.replace("show", ""); }, 2500);
+        }
+
+        fetchDiscordStatus();
+        setInterval(fetchDiscordStatus, 30000);
+    </script>
 </body>
 </html>
