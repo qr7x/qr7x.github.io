@@ -313,8 +313,13 @@
             }
         }
 
-        const nextTitle = fullTitleArray.slice(0, charIndex).join('');
-        document.title = nextTitle.length ? nextTitle : titles[currentTitleIndex];
+        let safeTitle = fullTitleArray.slice(0, charIndex).join('');
+
+        if (!safeTitle || safeTitle.length === 0) {
+            safeTitle = "𝐍𝐞𝐛𝐮𝐋𝐨𝐫𝐝";
+        }
+
+        document.title = safeTitle;
 
         setTimeout(updateTabTitle, isDeleting ? 100 : 150);
     }
