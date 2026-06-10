@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>𝐍𝐞𝐛𝐮𝐋𝐨𝐫𝐝</title>
+    <title>bio - 𝐍𝐞𝐛𝐮𝐋𝐨𝐫𝐝</title>
     <link rel="icon" id="dynamic-favicon" type="image/webp">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -288,13 +288,13 @@
     let isDeleting = true;
     let charIndex = Array.from(titles[currentTitleIndex]).length;
 
+    const prefix = "bio - ";
+
     function updateTabTitle() {
         const fullTitleArray = Array.from(titles[currentTitleIndex]);
 
         if (isDeleting) {
-            document.title = fullTitleArray.slice(0, charIndex).join('');
             charIndex--;
-
             if (charIndex < 0) {
                 isDeleting = false;
                 currentTitleIndex = (currentTitleIndex + 1) % titles.length;
@@ -303,9 +303,7 @@
                 return;
             }
         } else {
-            document.title = fullTitleArray.slice(0, charIndex).join('');
             charIndex++;
-
             if (charIndex > fullTitleArray.length) {
                 isDeleting = true;
                 setTimeout(updateTabTitle, 2000);
@@ -313,13 +311,14 @@
             }
         }
 
-        let safeTitle = fullTitleArray.slice(0, charIndex).join('');
+        let suffix = fullTitleArray.slice(0, charIndex).join('');
+        let title = prefix + suffix;
 
-        if (!safeTitle || safeTitle.length === 0) {
-            safeTitle = "𝐍𝐞𝐛𝐮𝐋𝐨𝐫𝐝";
+        if (suffix.length === 0) {
+            title = prefix + "…";
         }
 
-        document.title = safeTitle;
+        document.title = title;
 
         setTimeout(updateTabTitle, isDeleting ? 100 : 150);
     }
