@@ -314,10 +314,6 @@
         let suffix = fullTitleArray.slice(0, charIndex).join('');
         let title = prefix + suffix;
 
-        if (suffix.length === 0) {
-            title = prefix + "…";
-        }
-
         document.title = title;
 
         setTimeout(updateTabTitle, isDeleting ? 100 : 150);
